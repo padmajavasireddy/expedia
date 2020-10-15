@@ -1,0 +1,14 @@
+<suite name="Suite1" verbose="1" >
+  <test name="ExpediaTests" >
+    <classes>
+       <class name="ExpediaTest" />
+    </classes>
+  </test>
+ 
+  <test name="Expedia travel search validation ">
+    <classes>
+      <class name="/expedia/src/test/java/Tests/staysTest"></class>
+      
+    </classes>
+  </test>
+</suite>
