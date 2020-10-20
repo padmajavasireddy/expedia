@@ -32,7 +32,12 @@ public class StaysPageObject{
 	private WebElement srchBtn;
 	@FindBy(xpath="//div[@id='location-field-destination-input-error']")
 	private WebElement destinationError;
+	@FindBy(xpath="//button[@class='uitk-button uitk-button-small uitk-button-has-text uitk-button-primary uitk-flex-item uitk-flex-shrink-0 dialog-done']/span")
+	private WebElement calendarCloseBtn;
+	@FindBy(xpath="//div[@id='d2-error']")
+	private WebElement error28days;
 	private WebDriver driver ;
+	
 	public StaysPageObject(WebDriver driver){
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
@@ -90,10 +95,15 @@ public class StaysPageObject{
 
 	public WebElement GetStays() {
 		
-		return stays;
-		
-		
+		return stays;	
 	}
 
+	public WebElement GetcalendarCloseBtn()
+	{
+		return calendarCloseBtn;
+	}
 
+	public WebElement Geterror28days() {
+		return error28days;
+	}
 }

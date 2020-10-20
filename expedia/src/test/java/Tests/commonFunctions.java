@@ -2,6 +2,7 @@ package Tests;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -18,6 +19,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
@@ -29,6 +31,7 @@ public class commonFunctions {
 
 	public Properties properties;
 	public WebDriver driver;
+	String date ;
 	
 	public Properties loadpropertiesfile() throws IOException
 	{
@@ -106,18 +109,36 @@ public class commonFunctions {
 	    });
 	}
 	
-	public Date getDate() throws ParseException {
-		//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		//Date dateWithoutTime = sdf.parse(sdf.format(new Date()));
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.HOUR_OF_DAY, 0);
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.SECOND, 0);
-		cal.set(Calendar.MILLISECOND, 0);
-		Date dateWithoutTime = cal.getTime();
-		return dateWithoutTime;
+	public void getDate() throws ParseException {
+		DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+	    date = dateFormat.format(new Date());
+		
 	}
-
+	
+	public String getDay()
+	{
+		String day;
+		String dateSplit[] = date.split("-");
+		day=dateSplit[1];
+		return day;
+	}
+ 
+	public String getMonth()
+	{
+		String month;
+		String dateSplit[] = date.split("-");
+		month=dateSplit[0];
+		return month;
+	}
+	
+	public void scrollElementVisiblePerformAction(String xpath) {
+		 WebDriverWait wait = new WebDriverWait(driver, 30);        
+		 JavascriptExecutor js = ((JavascriptExecutor) driver);  
+		 wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));       
+		 WebElement element = driver.findElement(By.xpath(xpath));
+		 js.executeScript("arguments[0].scrollIntoView(true);", element);        
+		 ((JavascriptExecutor)driver).executeScript("arguments[0].click();", element);
+	}
 
 	@AfterSuite
 	public void teardown()

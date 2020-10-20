@@ -3,6 +3,7 @@ package Tests;
 import java.text.ParseException;
 import java.util.Date;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -52,27 +53,32 @@ public void SearchWithdestinationTest() throws InterruptedException {
 	}
 	
 	@Test(priority=3)
-	public void chkinGtrChkoutTest() throws ParseException
+	public void chkinChkout28daysTest() throws ParseException, InterruptedException
 	{
 		driver.get(properties.getProperty("url"));
 		waitForPageLoad();
 		staysObject.GetStays().click();
 		String destination = "London";
 		staysObject.setDestination(destination);
-	
-		Date date = getDate();
-		System.out.println("date is : " + date);
+		getDate();
 		staysObject.getChkInBtn().click();
-		staysObject.setChkin(date.toString());
-		staysObject.getChkin().sendKeys(Keys.ENTER);
+		String day = getDay();
+		driver.findElement(By.xpath("(//button[@class='uitk-new-date-picker-day'][@data-day='"+day+"'])[1]")).click();
+		driver.findElement(By.xpath("(//button[@class='uitk-new-date-picker-day'][@data-day='22'])[2]")).click();
+		staysObject.GetcalendarCloseBtn().click();
+		staysObject.GetsearchBtn().click();
+		String error = staysObject.Geterror28days().getText();
+		Assert.assertEquals(error, "Dates must be no more than 28 days apart");
+		}
+	
+	@Test(priority=4)
+	
+	public void selectChkInChkOutTest() {
 		staysObject.getChkOutBtn().click();
-		staysObject.setChkOut(date.toString());
-		staysObject.getChkOut().sendKeys(Keys.ENTER);
+		driver.findElement(By.xpath("//button[@class='uitk-new-date-picker-day selected'][@data-day='1']")).click();
+		staysObject.GetcalendarCloseBtn().click();
 		staysObject.GetsearchBtn().click();
 		
-		
-		
 	}
-	
 
 }
