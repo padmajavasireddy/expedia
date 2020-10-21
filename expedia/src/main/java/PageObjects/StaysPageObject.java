@@ -21,11 +21,11 @@ public class StaysPageObject{
 	@FindBy(xpath="//button[@id='d1-btn']")
 	private WebElement checkInBtn;
 	@FindBy(xpath="//input[@id='d1']")
-	private WebElement checkIn;
+	private WebElement checkInInput;
 	@FindBy(xpath="//button[@id='d2-btn']")
-	private WebElement checkOutBtn;
-	@FindBy(xpath="//input[@id='d2']")
-	private WebElement checkOut;
+	private WebElement checkOutInputBtn;
+	@FindBy(xpath="//button[@class='uitk-flex-item uitk-new-date-picker-top-bar-selection selection-filled uitk-new-date-picker-input']")
+	private WebElement checkOutInput;
 	@FindBy(xpath="//div[@id='adaptive-menu']")
 	private WebElement travelers;
 	@FindBy(xpath="//button[@data-testid='submit-button']")
@@ -37,12 +37,12 @@ public class StaysPageObject{
 	@FindBy(xpath="//div[@id='d2-error']")
 	private WebElement error28days;
 	private WebDriver driver ;
-	
+
 	public StaysPageObject(WebDriver driver){
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 	}
-	
+
 	public WebElement getDestination() {
 		return destination;
 	}
@@ -56,23 +56,16 @@ public class StaysPageObject{
 		return checkInBtn;
 	}
 
-	public WebElement getChkin() {
-		return checkIn;
+	public WebElement getChkinInput() {
+		return checkInInput;
 	}
 
-	public void setChkin(String chkin ) {
-		checkIn.sendKeys(chkin);
-	}
-	public WebElement getChkOutBtn() {
-		return checkOutBtn;
+	public WebElement getChkOutInputBtn() {
+		return checkOutInputBtn;
 	}
 
-	public WebElement getChkOut() {
-		return checkOut;
-	}
-
-	public void setChkOut(String chkout ) {
-		checkOut.sendKeys(chkout);
+	public WebElement getChkOutInput() {
+		return checkOutInput;
 	}
 
 	public void selectTravelers(){
@@ -87,14 +80,14 @@ public class StaysPageObject{
 	public WebElement GetDestinationError() {
 		return destinationError;
 	}
-	
+
 	public WebElement GetsignInBtn()
 	{
 		return signInBtn;
 	}
 
 	public WebElement GetStays() {
-		
+
 		return stays;	
 	}
 

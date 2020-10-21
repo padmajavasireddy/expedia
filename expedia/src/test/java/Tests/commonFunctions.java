@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
@@ -31,8 +33,9 @@ public class commonFunctions {
 
 	public Properties properties;
 	public WebDriver driver;
-	String date ;
-	
+	Date date ;
+	String date1;
+
 	public Properties loadpropertiesfile() throws IOException
 	{
 		FileInputStream fileinputstream = new FileInputStream("config.Properties");
@@ -79,11 +82,11 @@ public class commonFunctions {
 			page = new WebDriverWait(driver, 30).until(ExpectedConditions.visibilityOfElementLocated(By.xpath(expediaobject)));
 			if(new WebDriverWait(driver, 30).until(ExpectedConditions.attributeContains(page, "visibility", "visible"))==true)
 			{
-				
+
 				System.out.println("Expedia loaded");
 				//driver.findElement(By.xpath("(//div[@id='gc-custom-header-nav-bar-acct-menu']//button)[1]")).click();
 				//driver.findElement(By.xpath("//a[@aria-controls='wizard-hotel-pwa-v2']")).click();	
-				
+
 			}
 		}
 		catch(Exception e) {
@@ -93,58 +96,43 @@ public class commonFunctions {
 		}
 
 	}
-	
+
 	public void waitForPageLoad() {
 
-	    Wait<WebDriver> wait = new WebDriverWait(driver, 30);
-	    
-	    wait.until(new Function<WebDriver, Boolean>() {
-	        public Boolean apply(WebDriver driver) {
-	        	System.out.println("Current Window State       : "
-	                + String.valueOf(((JavascriptExecutor) driver).executeScript("return document.readyState")));
-	           return String
-		                .valueOf(((JavascriptExecutor) driver).executeScript("return document.readyState"))
-		                .equals("complete");
-	        }
-	    });
+		Wait<WebDriver> wait = new WebDriverWait(driver, 30);
+
+		wait.until(new Function<WebDriver, Boolean>() {
+			public Boolean apply(WebDriver driver) {
+				System.out.println("Current Window State       : "
+						+ String.valueOf(((JavascriptExecutor) driver).executeScript("return document.readyState")));
+				return String
+						.valueOf(((JavascriptExecutor) driver).executeScript("return document.readyState"))
+						.equals("complete");
+			}
+		});
 	}
-	
-	public void getDate() throws ParseException {
-		DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-	    date = dateFormat.format(new Date());
-		
+
+	public LocalDate getDate(String datevalue , int plusdays) throws ParseException {
+
+		LocalDate date1 = LocalDate.parse(datevalue);
+		date1 = date1.plusDays(plusdays);
+		return date1;
 	}
-	
-	public String getDay()
-	{
-		String day;
-		String dateSplit[] = date.split("-");
-		day=dateSplit[1];
-		return day;
-	}
- 
-	public String getMonth()
-	{
-		String month;
-		String dateSplit[] = date.split("-");
-		month=dateSplit[0];
-		return month;
-	}
-	
+
 	public void scrollElementVisiblePerformAction(String xpath) {
-		 WebDriverWait wait = new WebDriverWait(driver, 30);        
-		 JavascriptExecutor js = ((JavascriptExecutor) driver);  
-		 wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));       
-		 WebElement element = driver.findElement(By.xpath(xpath));
-		 js.executeScript("arguments[0].scrollIntoView(true);", element);        
-		 ((JavascriptExecutor)driver).executeScript("arguments[0].click();", element);
+		WebDriverWait wait = new WebDriverWait(driver, 30);        
+		JavascriptExecutor js = ((JavascriptExecutor) driver);  
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));       
+		WebElement element = driver.findElement(By.xpath(xpath));
+		js.executeScript("arguments[0].scrollIntoView(true);", element);        
+		((JavascriptExecutor)driver).executeScript("arguments[0].click();", element);
 	}
 
 	@AfterSuite
 	public void teardown()
 	{
-		//if(driver!=null)
-		//	driver.quit();
+		if(driver!=null)
+			driver.quit();
 	}
 
 
